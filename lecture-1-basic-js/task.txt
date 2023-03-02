@@ -1,0 +1,83 @@
+1.Add and Subtract
+Write a function, which changes the value of odd and even numbers in an array of numbers.
+If the number is even - add to its value its index position
+If the number is odd - subtract to its value its index position
+Output
+On the first line print the newly modified array, on the second line print the sum of numbers from the original array, on the third line print the sum of numbers from the modified array.
+
+input : [5, 15, 23, 56, 35]
+output: [ 5, 14, 21, 59, 31 ]
+134
+130
+2.Common Elements
+Write a function, which prints common elements in two string arrays. Print all matches on separate lines. Compare the first array with the second array.
+
+input: ['Hey', 'hello', 2, 4, 'Peter', 'e'],
+['Petar', 10, 'hey', 4, 'hello', '2']
+output: hello
+3.Часовник
+Напишете функция, която отпечатва часовете в денонощието от 0:0 до 23:59, всеки на отделен ред. Часовете трябва да се изписват във формат "{час}:{минути}".
+Примерен вход и изход: (няма вход)
+0:0
+0:1
+0:2
+0:3
+0:4
+0:5
+0:6
+0:7
+0:8
+0:9
+0:10
+...
+23:50
+23:51
+23:52
+23:53
+23:54
+23:55
+23:56
+23:57
+23:58
+23:59
+
+
+4.Таблица за умножение
+Отпечатайте на конзолата таблицата за умножение за числата от 1 до 10 във формат: $"{първи множител} * ${втори множител} = ${резултат}". 
+Примерен вход и изход: 1 * 1 = 1
+1 * 2 = 2
+1 * 3 = 3
+1 * 4 = 4
+1 * 5 = 5
+1 * 6 = 6
+1 * 7 = 7
+1 * 8 = 8
+1 * 9 = 9
+1 * 10 = 10
+...
+10 * 1 = 10
+10 * 2 = 20
+10 * 3 = 30
+10 * 4 = 40
+10 * 5 = 50
+10 * 6 = 60
+10 * 7 = 70
+10 * 8 = 80
+10 * 9 = 90
+10 * 10 = 100
+5.Комбинации
+Напишете функция, която изчислява колко решения в естествените числа (включително и нулата) има уравнението:
+x1 + x2 + x3 = n
+Числото n е цяло число и се въвежда от конзолата. 
+Примерен вход (["25"]) и изход: 351
+
+6. Create a program that organizes passengers onto a train. Each train car can hold up to 4 passengers. If a car is full, direct passengers to the next available car.
+Input:The first line should contain the number of passengers waiting to board the train.The second line should contain the current state of the train, with each car represented by a number indicating how many passengers are in it, separated by a single space.
+Output:When there are no more available spots on the train, or there are no more passengers waiting, print the final state of the train's cars separated by " " and one of the following messages:If there are no more passengers and the train has empty spots, print: "The train has empty spots! {train cars separated by ' '}"If there are still passengers waiting and no more available space, print: "There isn't enough space! {number of passengers waiting} people in the queue! {train cars separated by ' '}"If the train is full and there are no more passengers waiting, print only the train cars separated by " ".
+example input 
+140 0 0 0
+example output The lift has empty spots!4 4 4 2
+
+7.Seek and DestroyYou will be provided with an initial array (the first argument in the destroyer function), followed by one or more arguments. Remove all elements from the initial array that are of the same value as these arguments.destroyer([1, 2, 3, 1, 2, 3], 2, 3) should return [1, 1].
+
+8. Sum All Numbers in a RangeWe'll pass you an array of two numbers. Return the sum of those two numbers plus the sum of all the numbers between them. The lowest number will not always come first.For example, sumAll([4,1]) should return 10 because sum of all the numbers between 1 and 4 (both inclusive) is 10.sumAll([5, 10]) should return 45.
