@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" />
+    <style>
+      .card {
+        width: 600px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="card">
+      <h1>Fun Cat Fact</h1>
+      <p id="fact"></p>
+      <button id="fact-button" onClick="getFact()">New Cat Fact</button>
+    </div>
+
+    <script>
+      async function getFact() {
+        let errorString = "";
+        try {
+          const data = await response.json();
+          console.log(data);
+          const fact = data.fact;
+          throw new Error(errorString);
+          document.getElementById("fact").innerHTML = fact;
+        } catch (error) {
+          console.log(error);
+          document.getElementById("fact").innerHTML =
+            "Sorry, we are unable to load a fact at the moment.";
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -24,9 +24,10 @@ function lockedProfile() {
 
       if (checkUnclock[currentUser - 1].checked) {
         hiddenDiv.style.display = 'block';
-        checkLock[currentUser - 1].addEventListener('click', function () {
-          hiddenDiv.style.display = 'none';
-        });
+        checkLock[currentUser - 1].addEventListener(
+          'click',
+          () => (hiddenDiv.style.display = 'none')
+        );
       }
     })
   );
