@@ -67,7 +67,13 @@ const getCountry = async function () {
 
         moreInfoEl.childNodes[3].textContent =
           filteredCountryArr[0].name.common;
-        moreInfoEl.childNodes[5].textContent = `Borders: ${filteredCountryArr[0].borders}`;
+        moreInfoEl.childNodes[5].textContent = `Official: ${filteredCountryArr[0].name.official}`;
+        moreInfoEl.childNodes[6].textContent = `Languages: ${filteredCountryArr[0].languages}`;
+        moreInfoEl.childNodes[7].textContent = `Area: ${filteredCountryArr[0].area}`;
+        moreInfoEl.childNodes[8].textContent = `Google Maps: ${filteredCountryArr[0].maps.googleMaps}`;
+        moreInfoEl.childNodes[9].textContent = `Fifa: ${filteredCountryArr[0].fifa}`;
+        moreInfoEl.childNodes[10].textContent = `Cars: ${filteredCountryArr[0].car.signs}`;
+        moreInfoEl.childNodes[11].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
       });
 
       inputCountryName.value = '';
