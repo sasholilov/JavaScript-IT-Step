@@ -4,6 +4,21 @@ let inputCountryName = document.querySelector('input[type=text]');
 const countryEl = document.querySelector('.country');
 const btnAdd = document.getElementById('addcountry');
 const main = document.getElementById('main');
+const moreInfoEl = document.querySelector('.moreinfo');
+const btnCloseInfo = document.querySelector('.close-moreinfo');
+const inputEl = document.querySelector('.input-name');
+const countryArr = [];
+let data = null;
+const moreInfo = function () {
+  main.style.display = 'none';
+  inputEl.classList.add('hidden');
+  moreInfoEl.classList.remove('hidden');
+  btnCloseInfo.addEventListener('click', function () {
+    moreInfoEl.classList.add('hidden');
+    main.style.display = 'block';
+    inputEl.classList.remove('hidden');
+  });
+};
 
 const getCountry = async function () {
   try {
@@ -11,7 +26,8 @@ const getCountry = async function () {
       `https://restcountries.com/v3.1/name/${inputCountryName.value}`
     );
     const dataArr = await response.json();
-    const data = dataArr[0];
+    data = dataArr[0];
+    countryArr.push(dataArr[0]);
     console.log(data.flags.png);
     const renderCountry = function () {
       const div = document.createElement('div');
@@ -38,17 +54,27 @@ const getCountry = async function () {
       div.appendChild(buttonEl);
       main.appendChild(div);
 
-      buttonEl.addEventListener('click', function () {
-        main.style.display = 'none';
-        //render more info block
-        alert('render more info block');
+      buttonEl.addEventListener('click', function (event) {
+        moreInfo();
+        let findCountry =
+          event.target.previousSibling.previousSibling.previousSibling
+            .previousSibling.textContent;
+        console.log(findCountry);
+        const filteredCountryArr = countryArr.filter(
+          e => e.name.common == findCountry
+        );
+        console.log(filteredCountryArr);
+
+        moreInfoEl.childNodes[3].textContent =
+          filteredCountryArr[0].name.common;
+        moreInfoEl.childNodes[5].textContent = `Borders: ${filteredCountryArr[0].borders}`;
       });
 
       inputCountryName.value = '';
     };
     renderCountry();
   } catch (error) {
-    console.error(error);
+    alert(error);
   }
 };
 btnAdd.addEventListener('click', getCountry);
