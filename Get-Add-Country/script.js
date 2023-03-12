@@ -25,6 +25,9 @@ const getCountry = async function () {
     const response = await fetch(
       `https://restcountries.com/v3.1/name/${inputCountryName.value}`
     );
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
     const dataArr = await response.json();
     data = dataArr[0];
     countryArr.push(dataArr[0]);
@@ -37,6 +40,7 @@ const getCountry = async function () {
       const cityEl = document.createElement('p');
       const regionEl = document.createElement('p');
       const buttonEl = document.createElement('button');
+      const buttonRemoveEl = document.createElement('button');
       div.classList.add('country');
       img.setAttribute('src', `${data.flags.svg}`);
       img.classList.add('flag-image');
@@ -48,10 +52,13 @@ const getCountry = async function () {
       regionEl.innerHTML = `<i class="fa-solid fa-earth-americas"></i>Region: ${data.region}`;
       buttonEl.textContent = 'Show more';
       buttonEl.classList.add('btncountry');
+      buttonRemoveEl.textContent = 'Remove';
+      buttonRemoveEl.classList.add('btncountry');
       div.appendChild(populationEl);
       div.appendChild(cityEl);
       div.appendChild(regionEl);
       div.appendChild(buttonEl);
+      div.appendChild(buttonRemoveEl);
       main.appendChild(div);
 
       buttonEl.addEventListener('click', function (event) {
@@ -76,6 +83,12 @@ const getCountry = async function () {
         moreInfoEl.childNodes[11].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
       });
 
+      buttonRemoveEl.addEventListener('click', function () {
+        buttonRemoveEl.parentElement.remove();
+        countryArr.pop(dataArr[0]);
+        console.log(countryArr);
+      });
+
       inputCountryName.value = '';
     };
     renderCountry();
@@ -84,3 +97,4 @@ const getCountry = async function () {
   }
 };
 btnAdd.addEventListener('click', getCountry);
+console.log(countryArr);
