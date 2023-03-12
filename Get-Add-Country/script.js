@@ -84,13 +84,15 @@ const getCountry = async function () {
       });
 
       buttonRemoveEl.addEventListener('click', function (event) {
-        let findCountry =
-          event.target.previousSibling.previousSibling.previousSibling
-            .previousSibling.previousSibling.textContent;
-        console.log(findCountry);
-        countryArr = countryArr.filter(e => e.name.common != findCountry);
-        console.log(countryArr);
-        buttonRemoveEl.parentElement.remove();
+        if (window.confirm('Do you confirm?')) {
+          let findCountry =
+            event.target.previousSibling.previousSibling.previousSibling
+              .previousSibling.previousSibling.textContent;
+          console.log(findCountry);
+          countryArr = countryArr.filter(e => e.name.common != findCountry);
+          console.log(countryArr);
+          buttonRemoveEl.parentElement.remove();
+        }
       });
 
       inputCountryName.value = '';
