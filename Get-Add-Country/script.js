@@ -7,7 +7,7 @@ const main = document.getElementById('main');
 const moreInfoEl = document.querySelector('.moreinfo');
 const btnCloseInfo = document.querySelector('.close-moreinfo');
 const inputEl = document.querySelector('.input-name');
-const countryArr = [];
+let countryArr = [];
 let data = null;
 const moreInfo = function () {
   main.style.display = 'none';
@@ -83,10 +83,14 @@ const getCountry = async function () {
         moreInfoEl.childNodes[11].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
       });
 
-      buttonRemoveEl.addEventListener('click', function () {
-        buttonRemoveEl.parentElement.remove();
-        countryArr.pop(dataArr[0]);
+      buttonRemoveEl.addEventListener('click', function (event) {
+        let findCountry =
+          event.target.previousSibling.previousSibling.previousSibling
+            .previousSibling.previousSibling.textContent;
+        console.log(findCountry);
+        countryArr = countryArr.filter(e => e.name.common != findCountry);
         console.log(countryArr);
+        buttonRemoveEl.parentElement.remove();
       });
 
       inputCountryName.value = '';
