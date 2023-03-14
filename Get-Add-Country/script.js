@@ -46,12 +46,17 @@ const getCountry = async function () {
     const response = await fetch(
       `https://restcountries.com/v3.1/name/${inputCountryName.value}`
     );
+    if (inputCountryName.value == '') {
+      throw new Error('Please type a country name!');
+    }
     if (response.status == 404) {
       console.log(response);
       throw new Error('The country does not exist. Try again!');
     }
+
     const dataArr = await response.json();
     data = dataArr[0];
+
     countryStorage.push(data);
     const renderCountry = function () {
       const div = document.createElement('div');
