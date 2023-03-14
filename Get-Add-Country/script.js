@@ -24,7 +24,7 @@ const getCurrencies = function (currObj) {
   const currneciesKeys = Object.keys(currObj.currencies);
   console.log(currneciesKeys);
   const currenciesNames = currneciesKeys.map(key => currObj.currencies[key]);
-  return currenciesNames.map(e => e.name).join('');
+  return currenciesNames.map(e => e.name).join(', ');
 };
 
 inputEl.classList.add('input-ani');
