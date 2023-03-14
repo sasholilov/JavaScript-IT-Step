@@ -51,12 +51,17 @@ const getCountry = async function () {
     }
     if (response.status == 404) {
       console.log(response);
-      throw new Error('The country does not exist. Try again!');
+      throw new Error('The name of the country is incorect. Try again!');
     }
-
     const dataArr = await response.json();
     data = dataArr[0];
-
+    if (
+      countryStorage.some(
+        country => JSON.stringify(country) == JSON.stringify(data)
+      )
+    ) {
+      throw new Error('The country already exist in your list!');
+    }
     countryStorage.push(data);
     const renderCountry = function () {
       const div = document.createElement('div');
