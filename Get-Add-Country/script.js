@@ -19,6 +19,9 @@ const getLanguages = function (langObj) {
   return languageNames;
 };
 
+inputEl.classList.add('input-ani');
+inputEl.style.paddingTop = '20%';
+
 const renderError = function (error) {
   main.style.display = 'none';
   inputEl.classList.add('hidden');
@@ -62,6 +65,7 @@ const getCountry = async function () {
     ) {
       throw new Error('The country already exist in your list!');
     }
+    inputEl.style.paddingTop = 0;
     countryStorage.push(data);
     const renderCountry = function () {
       const div = document.createElement('div');
@@ -121,6 +125,10 @@ const getCountry = async function () {
             e => e.name.common != findCountry
           );
           buttonRemoveEl.parentElement.remove();
+          if (countryStorage.length == 0) {
+            inputEl.classList.add('input-ani');
+            inputEl.style.paddingTop = '20%';
+          }
         }
       });
 
