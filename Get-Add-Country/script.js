@@ -7,6 +7,7 @@ const main = document.getElementById('main');
 const moreInfoEl = document.querySelector('.moreinfo');
 const errorEl = document.querySelector('.error');
 const btnCloseInfo = document.querySelector('.close-moreinfo');
+const btnCloseError = document.querySelector('.close-error');
 const inputEl = document.querySelector('.input-name');
 let data = null;
 let countryStorage = [];
@@ -21,14 +22,13 @@ const getLanguages = function (langObj) {
 const renderError = function (error) {
   main.style.display = 'none';
   inputEl.classList.add('hidden');
-  moreInfoEl.classList.remove('hidden');
-  btnCloseInfo.addEventListener('click', function () {
-    moreInfoEl.classList.add('hidden');
+  errorEl.classList.remove('hidden');
+  btnCloseError.addEventListener('click', function () {
+    errorEl.classList.add('hidden');
     main.style.display = 'block';
     inputEl.classList.remove('hidden');
   });
-  moreInfoEl.childNodes[3].textContent = error.message;
-  console.log(error);
+  errorEl.querySelector('h1').textContent = error.message;
 };
 const moreInfo = function () {
   main.style.display = 'none';
