@@ -11,12 +11,20 @@ const btnCloseError = document.querySelector('.close-error');
 const inputEl = document.querySelector('.input-name');
 let data = null;
 let countryStorage = [];
+
 const getLanguages = function (langObj) {
   const languageKeys = Object.keys(langObj.languages);
   const languageNames = languageKeys
     .map(key => langObj.languages[key])
     .join(', ');
   return languageNames;
+};
+
+const getCurrencies = function (currObj) {
+  const currneciesKeys = Object.keys(currObj.currencies);
+  console.log(currneciesKeys);
+  const currenciesNames = currneciesKeys.map(key => currObj.currencies[key]);
+  return currenciesNames.map(e => e.name).join('');
 };
 
 inputEl.classList.add('input-ani');
@@ -110,11 +118,14 @@ const getCountry = async function () {
         moreInfoEl.childNodes[6].textContent = `Languages: ${getLanguages(
           filteredCountryArr[0]
         )}`;
-        moreInfoEl.childNodes[7].textContent = `Area: ${filteredCountryArr[0].area}`;
+        moreInfoEl.childNodes[7].textContent = `Currencies: ${getCurrencies(
+          filteredCountryArr[0]
+        )}`;
         moreInfoEl.childNodes[8].textContent = `Google Maps: ${filteredCountryArr[0].maps.googleMaps}`;
         moreInfoEl.childNodes[9].textContent = `Fifa: ${filteredCountryArr[0].fifa}`;
         moreInfoEl.childNodes[10].textContent = `Cars License: ${filteredCountryArr[0].car.signs}`;
-        moreInfoEl.childNodes[11].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
+        moreInfoEl.childNodes[11].textContent = `Area: ${filteredCountryArr[0].area}`;
+        moreInfoEl.childNodes[12].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
       });
 
       buttonRemoveEl.addEventListener('click', function (event) {
