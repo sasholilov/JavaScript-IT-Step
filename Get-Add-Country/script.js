@@ -126,6 +126,9 @@ const getCountry = async function () {
       `https://restcountries.com/v3.1/name/${inputCountryName.value}`
     );
 
+    if (response.status == 404) {
+      throw new Error('The name of the country is incorect. Try again!');
+    }
     const dataArr = await response.json();
     data = dataArr[0];
     if (
