@@ -20,6 +20,73 @@ const getLanguages = function (langObj) {
   return languageNames;
 };
 
+const renderCountry = function (data) {
+  const div = document.createElement('div');
+  const img = document.createElement('img');
+  const countryName = document.createElement('h2');
+  const populationEl = document.createElement('p');
+  const cityEl = document.createElement('p');
+  const regionEl = document.createElement('p');
+  const buttonSwohMore = document.createElement('button');
+  const buttonRemoveEl = document.createElement('button');
+  div.classList.add('country');
+  img.setAttribute('src', `${data.flags.svg}`);
+  img.classList.add('flag-image');
+  div.appendChild(img);
+  countryName.textContent = data.name.common;
+  div.appendChild(countryName);
+  populationEl.innerHTML = `<i class="fa-solid fa-person"></i>Population: ${data.population}`;
+  cityEl.innerHTML = `<i class="fa-solid fa-city"></i>Capital city: ${data.capital}`;
+  regionEl.innerHTML = `<i class="fa-solid fa-earth-americas"></i>Region: ${data.region}`;
+  buttonSwohMore.textContent = 'Show more';
+  buttonSwohMore.classList.add('btncountry');
+  buttonRemoveEl.textContent = 'Remove';
+  buttonRemoveEl.classList.add('btncountry');
+  div.appendChild(populationEl);
+  div.appendChild(cityEl);
+  div.appendChild(regionEl);
+  div.appendChild(buttonSwohMore);
+  div.appendChild(buttonRemoveEl);
+  main.appendChild(div);
+
+  buttonSwohMore.addEventListener('click', function (event) {
+    moreInfo();
+    let findCountry = event.target.parentElement.childNodes[1].textContent;
+    const filteredCountryArr = countryStorage.filter(
+      e => e.name.common == findCountry
+    );
+    console.log(filteredCountryArr);
+
+    moreInfoEl.childNodes[3].textContent = filteredCountryArr[0].name.common;
+    moreInfoEl.childNodes[5].textContent = `Official: ${filteredCountryArr[0].name.official}`;
+    moreInfoEl.childNodes[6].textContent = `Languages: ${getLanguages(
+      filteredCountryArr[0]
+    )}`;
+    moreInfoEl.childNodes[7].textContent = `Currencies: ${getCurrencies(
+      filteredCountryArr[0]
+    )}`;
+    moreInfoEl.childNodes[8].textContent = `Google Maps: ${filteredCountryArr[0].maps.googleMaps}`;
+    moreInfoEl.childNodes[9].textContent = `Fifa: ${filteredCountryArr[0].fifa}`;
+    moreInfoEl.childNodes[10].textContent = `Cars License: ${filteredCountryArr[0].car.signs}`;
+    moreInfoEl.childNodes[11].textContent = `Area: ${filteredCountryArr[0].area}`;
+    moreInfoEl.childNodes[12].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
+  });
+
+  buttonRemoveEl.addEventListener('click', function (event) {
+    if (window.confirm('Do you confirm?')) {
+      let findCountry = event.target.parentElement.childNodes[1].textContent;
+      countryStorage = countryStorage.filter(e => e.name.common != findCountry);
+      buttonRemoveEl.parentElement.remove();
+      if (countryStorage.length == 0) {
+        inputEl.classList.add('input-ani');
+        inputEl.style.paddingTop = '20%';
+      }
+    }
+  });
+
+  inputCountryName.value = '';
+};
+
 const getCurrencies = function (currObj) {
   const currneciesKeys = Object.keys(currObj.currencies);
   console.log(currneciesKeys);
@@ -70,77 +137,8 @@ const getCountry = async function () {
     }
     inputEl.style.paddingTop = 0;
     countryStorage.push(data);
-    const renderCountry = function () {
-      const div = document.createElement('div');
-      const img = document.createElement('img');
-      const countryName = document.createElement('h2');
-      const populationEl = document.createElement('p');
-      const cityEl = document.createElement('p');
-      const regionEl = document.createElement('p');
-      const buttonSwohMore = document.createElement('button');
-      const buttonRemoveEl = document.createElement('button');
-      div.classList.add('country');
-      img.setAttribute('src', `${data.flags.svg}`);
-      img.classList.add('flag-image');
-      div.appendChild(img);
-      countryName.textContent = data.name.common;
-      div.appendChild(countryName);
-      populationEl.innerHTML = `<i class="fa-solid fa-person"></i>Population: ${data.population}`;
-      cityEl.innerHTML = `<i class="fa-solid fa-city"></i>Capital city: ${data.capital}`;
-      regionEl.innerHTML = `<i class="fa-solid fa-earth-americas"></i>Region: ${data.region}`;
-      buttonSwohMore.textContent = 'Show more';
-      buttonSwohMore.classList.add('btncountry');
-      buttonRemoveEl.textContent = 'Remove';
-      buttonRemoveEl.classList.add('btncountry');
-      div.appendChild(populationEl);
-      div.appendChild(cityEl);
-      div.appendChild(regionEl);
-      div.appendChild(buttonSwohMore);
-      div.appendChild(buttonRemoveEl);
-      main.appendChild(div);
 
-      buttonSwohMore.addEventListener('click', function (event) {
-        moreInfo();
-        let findCountry = event.target.parentElement.childNodes[1].textContent;
-        const filteredCountryArr = countryStorage.filter(
-          e => e.name.common == findCountry
-        );
-        console.log(filteredCountryArr);
-
-        moreInfoEl.childNodes[3].textContent =
-          filteredCountryArr[0].name.common;
-        moreInfoEl.childNodes[5].textContent = `Official: ${filteredCountryArr[0].name.official}`;
-        moreInfoEl.childNodes[6].textContent = `Languages: ${getLanguages(
-          filteredCountryArr[0]
-        )}`;
-        moreInfoEl.childNodes[7].textContent = `Currencies: ${getCurrencies(
-          filteredCountryArr[0]
-        )}`;
-        moreInfoEl.childNodes[8].textContent = `Google Maps: ${filteredCountryArr[0].maps.googleMaps}`;
-        moreInfoEl.childNodes[9].textContent = `Fifa: ${filteredCountryArr[0].fifa}`;
-        moreInfoEl.childNodes[10].textContent = `Cars License: ${filteredCountryArr[0].car.signs}`;
-        moreInfoEl.childNodes[11].textContent = `Area: ${filteredCountryArr[0].area}`;
-        moreInfoEl.childNodes[12].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
-      });
-
-      buttonRemoveEl.addEventListener('click', function (event) {
-        if (window.confirm('Do you confirm?')) {
-          let findCountry =
-            event.target.parentElement.childNodes[1].textContent;
-          countryStorage = countryStorage.filter(
-            e => e.name.common != findCountry
-          );
-          buttonRemoveEl.parentElement.remove();
-          if (countryStorage.length == 0) {
-            inputEl.classList.add('input-ani');
-            inputEl.style.paddingTop = '20%';
-          }
-        }
-      });
-
-      inputCountryName.value = '';
-    };
-    renderCountry();
+    renderCountry(data);
   } catch (error) {
     if (inputCountryName.value == '') {
       error.message = 'Please type a country name!';
@@ -151,6 +149,7 @@ const getCountry = async function () {
       error.message != 'The country already exist in your list!'
     ) {
       //console.log(response);
+      console.log(error.message);
       error.message = 'The name of the country is incorect. Try again!';
     }
     renderError(error);
