@@ -53,17 +53,12 @@ const moreInfo = function () {
 };
 
 const getCountry = async function () {
+  // debugger;
   try {
     const response = await fetch(
       `https://restcountries.com/v3.1/name/${inputCountryName.value}`
     );
-    if (inputCountryName.value == '') {
-      throw new Error('Please type a country name!');
-    }
-    if (response.status == 404) {
-      console.log(response);
-      throw new Error('The name of the country is incorect. Try again!');
-    }
+
     const dataArr = await response.json();
     data = dataArr[0];
     if (
@@ -147,6 +142,17 @@ const getCountry = async function () {
     };
     renderCountry();
   } catch (error) {
+    if (inputCountryName.value == '') {
+      error.message = 'Please type a country name!';
+    }
+
+    if (
+      !inputCountryName.value == '' &&
+      error.message != 'The country already exist in your list!'
+    ) {
+      //console.log(response);
+      error.message = 'The name of the country is incorect. Try again!';
+    }
     renderError(error);
   }
 };
