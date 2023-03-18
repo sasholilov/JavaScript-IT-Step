@@ -20,7 +20,27 @@ const getLanguages = function (langObj) {
   return languageNames;
 };
 
-const renderCountry = function (data) {
+const getCountryfromFirebase = async function () {
+  try {
+    const response = await fetch(
+      'https://test-f1797-default-rtdb.europe-west1.firebasedatabase.app/countries.json'
+    );
+    const data = await response.json();
+    console.log('Firebase-->');
+    const fireArr = Object.values(data);
+    if (fireArr.length > 0) {
+      fireArr.forEach(element => {
+        renderCountry(element, fireArr);
+        inputEl.style.paddingTop = '0';
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+getCountryfromFirebase();
+
+const renderCountry = function (data, countryArr) {
   const div = document.createElement('div');
   const img = document.createElement('img');
   const countryName = document.createElement('h2');
@@ -50,26 +70,7 @@ const renderCountry = function (data) {
   main.appendChild(div);
 
   buttonSwohMore.addEventListener('click', function (event) {
-    moreInfo();
-    let findCountry = event.target.parentElement.childNodes[1].textContent;
-    const filteredCountryArr = countryStorage.filter(
-      e => e.name.common == findCountry
-    );
-    console.log(filteredCountryArr);
-
-    moreInfoEl.childNodes[3].textContent = filteredCountryArr[0].name.common;
-    moreInfoEl.childNodes[5].textContent = `Official: ${filteredCountryArr[0].name.official}`;
-    moreInfoEl.childNodes[6].textContent = `Languages: ${getLanguages(
-      filteredCountryArr[0]
-    )}`;
-    moreInfoEl.childNodes[7].textContent = `Currencies: ${getCurrencies(
-      filteredCountryArr[0]
-    )}`;
-    moreInfoEl.childNodes[8].textContent = `Google Maps: ${filteredCountryArr[0].maps.googleMaps}`;
-    moreInfoEl.childNodes[9].textContent = `Fifa: ${filteredCountryArr[0].fifa}`;
-    moreInfoEl.childNodes[10].textContent = `Cars License: ${filteredCountryArr[0].car.signs}`;
-    moreInfoEl.childNodes[11].textContent = `Area: ${filteredCountryArr[0].area}`;
-    moreInfoEl.childNodes[12].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
+    moreInfo(event, countryArr);
   });
 
   buttonRemoveEl.addEventListener('click', function (event) {
@@ -108,7 +109,7 @@ const renderError = function (error) {
   });
   errorEl.querySelector('h1').textContent = error.message;
 };
-const moreInfo = function () {
+const moreInfo = function (event, countryStorage) {
   main.style.display = 'none';
   inputEl.classList.add('hidden');
   moreInfoEl.classList.remove('hidden');
@@ -117,6 +118,25 @@ const moreInfo = function () {
     main.style.display = 'block';
     inputEl.classList.remove('hidden');
   });
+  let findCountry = event.target.parentElement.childNodes[1].textContent;
+  const filteredCountryArr = countryStorage.filter(
+    e => e.name.common == findCountry
+  );
+  console.log(filteredCountryArr);
+
+  moreInfoEl.childNodes[3].textContent = filteredCountryArr[0].name.common;
+  moreInfoEl.childNodes[5].textContent = `Official: ${filteredCountryArr[0].name.official}`;
+  moreInfoEl.childNodes[6].textContent = `Languages: ${getLanguages(
+    filteredCountryArr[0]
+  )}`;
+  moreInfoEl.childNodes[7].textContent = `Currencies: ${getCurrencies(
+    filteredCountryArr[0]
+  )}`;
+  moreInfoEl.childNodes[8].textContent = `Google Maps: ${filteredCountryArr[0].maps.googleMaps}`;
+  moreInfoEl.childNodes[9].textContent = `Fifa: ${filteredCountryArr[0].fifa}`;
+  moreInfoEl.childNodes[10].textContent = `Cars License: ${filteredCountryArr[0].car.signs}`;
+  moreInfoEl.childNodes[11].textContent = `Area: ${filteredCountryArr[0].area}`;
+  moreInfoEl.childNodes[12].textContent = `Coordinates: ${filteredCountryArr[0].capitalInfo.latlng}`;
 };
 
 const getCountry = async function () {
@@ -140,8 +160,28 @@ const getCountry = async function () {
     }
     inputEl.style.paddingTop = 0;
     countryStorage.push(data);
+    console.log(countryStorage[0]);
 
-    renderCountry(data);
+    renderCountry(data, countryStorage);
+
+    const saveToDb = async function (country) {
+      try {
+        await fetch(
+          'https://test-f1797-default-rtdb.europe-west1.firebasedatabase.app/countries.json',
+          {
+            method: 'POST',
+            body: JSON.stringify(country),
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        //const data = await response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    saveToDb(data);
   } catch (error) {
     if (inputCountryName.value == '') {
       error.message = 'Please type a country name!';
@@ -159,4 +199,3 @@ const getCountry = async function () {
   }
 };
 btnAdd.addEventListener('click', getCountry);
-console.log(countryStorage);
