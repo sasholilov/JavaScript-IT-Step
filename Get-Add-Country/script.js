@@ -176,11 +176,7 @@ const getCountry = async function () {
     }
     const dataArr = await response.json();
     data = dataArr[0];
-    if (
-      countryStorage.some(
-        country => JSON.stringify(country) == JSON.stringify(data)
-      )
-    ) {
+    if (fireArr.some(e => e.name.common == data.name.common)) {
       throw new Error('The country already exist in your list!');
     }
     inputEl.style.paddingTop = 0;
