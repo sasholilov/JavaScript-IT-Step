@@ -11,6 +11,8 @@ const btnCloseError = document.querySelector('.close-error');
 const inputEl = document.querySelector('.input-name');
 let data = null;
 let countryStorage = [];
+let removeCountryArr = [];
+let fireArr = [];
 
 const getLanguages = function (langObj) {
   const languageKeys = Object.keys(langObj.languages);
@@ -20,6 +22,18 @@ const getLanguages = function (langObj) {
   return languageNames;
 };
 
+const removeCountry = async function (id) {
+  try {
+    await fetch(
+      `https://test-f1797-default-rtdb.europe-west1.firebasedatabase.app/countries/${id}.json`,
+      { method: 'DELETE' }
+    );
+    location.reload();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getCountryfromFirebase = async function () {
   try {
     const response = await fetch(
@@ -27,7 +41,12 @@ const getCountryfromFirebase = async function () {
     );
     const data = await response.json();
     console.log('Firebase-->');
-    const fireArr = Object.values(data);
+    fireArr = Object.values(data);
+    const keysArr = Object.keys(data);
+    keysArr.forEach((e, index) => {
+      fireArr[index].idCountry = keysArr[index];
+    });
+    console.log(fireArr);
     if (fireArr.length > 0) {
       fireArr.forEach(element => {
         renderCountry(element, fireArr);
@@ -38,6 +57,7 @@ const getCountryfromFirebase = async function () {
     console.log(error);
   }
 };
+
 getCountryfromFirebase();
 
 const renderCountry = function (data, countryArr) {
@@ -76,9 +96,14 @@ const renderCountry = function (data, countryArr) {
   buttonRemoveEl.addEventListener('click', function (event) {
     if (window.confirm('Do you confirm?')) {
       let findCountry = event.target.parentElement.childNodes[1].textContent;
-      countryStorage = countryStorage.filter(e => e.name.common != findCountry);
+      removeCountryArr = fireArr.filter(e => e.name.common == findCountry);
       buttonRemoveEl.parentElement.remove();
-      if (countryStorage.length == 0) {
+      console.log(removeCountryArr[0].idCountry);
+      removeCountry(removeCountryArr[0].idCountry);
+      console.log(removeCountryArr);
+      console.log(fireArr);
+
+      if (removeCountryArr.length == 0) {
         inputEl.classList.add('input-ani');
         inputEl.style.paddingTop = '20%';
       }
@@ -176,6 +201,7 @@ const getCountry = async function () {
             },
           }
         );
+        location.reload();
         //const data = await response.json();
       } catch (error) {
         console.log(error);
