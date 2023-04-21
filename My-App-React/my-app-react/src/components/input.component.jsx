@@ -9,6 +9,12 @@ const InputComponent = () => {
   const [countryArr, setCountryArr] = useState([]);
   const [country, setcountries] = useState(null);
 
+  const handleRemoveCountry = (countryToRemove) => {
+    setCountryArr((prevCountryArr) =>
+      prevCountryArr.filter((country) => country !== countryToRemove)
+    );
+  };
+
   const onChangeHandler = (event) => {
     setInputField(event.target.value);
     //console.log(event.target.value);
@@ -53,7 +59,12 @@ const InputComponent = () => {
           Add
         </button>
       </div>
-      {country && <CountryList country={countryArr} />}
+      {country && (
+        <CountryList
+          country={countryArr}
+          onRemove={() => handleRemoveCountry(country)}
+        />
+      )}
     </>
   );
 };

@@ -2,7 +2,7 @@ import "./styles.css";
 import InputComponent from "./input.component";
 import { Fragment } from "react";
 
-const Country = ({ country }) => {
+const Country = ({ country, onRemove }) => {
   return (
     <div className="country">
       <img src={`${country.flags.png}`} className="flag-image"></img>
@@ -10,6 +10,9 @@ const Country = ({ country }) => {
       <p>Capital: {country.capital}</p>
       <p>Population: {country.population}</p>
       <p>Region: {country.region}</p>
+      <button className="btncountry" onClick={onRemove}>
+        Remove
+      </button>
     </div>
   );
 };
