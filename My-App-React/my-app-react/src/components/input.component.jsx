@@ -8,17 +8,24 @@ const InputComponent = () => {
   const [inputField, setInputField] = useState("");
   const [countryArr, setCountryArr] = useState([]);
   const [country, setcountries] = useState(null);
+
   const onChangeHandler = (event) => {
     setInputField(event.target.value);
-    console.log(event.target.value);
+    //console.log(event.target.value);
   };
 
-  const onClickHandler = () => {
+  const onClickHandler = (prev) => {
     if (country) {
-      setCountryArr([...countryArr, country]); // Use spread operator to push country into countryArr immutably
+      setCountryArr((prev) => [...prev, country]);
+      console.log("TUK E PREV");
+      console.log(prev);
+      console.log("KRAI");
     }
   };
 
+  console.log(countryArr);
+
+  console.log(country);
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/name/${inputField}`)
       .then((response) => response.json())
@@ -31,10 +38,10 @@ const InputComponent = () => {
   //   }
   // }, [country]); // Update countryArr when country changes
 
-  console.log(countryArr);
+  //console.log(countryArr);
 
   return (
-    <Fragment>
+    <>
       <div className="input-name">
         <input
           type="text"
@@ -46,8 +53,8 @@ const InputComponent = () => {
           Add
         </button>
       </div>
-      {country && <CountryList country={country} />}
-    </Fragment>
+      {country && <CountryList country={countryArr} />}
+    </>
   );
 };
 
