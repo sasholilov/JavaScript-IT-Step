@@ -11,8 +11,16 @@ const InputComponent = () => {
 
   const handleRemoveCountry = (countryToRemove) => {
     setCountryArr((prevCountryArr) =>
-      prevCountryArr.filter((country) => country !== countryToRemove)
+      prevCountryArr.filter(
+        (country) => country.name.common !== countryToRemove.name.common
+      )
     );
+
+    // setCountryArr(countryArr.filter((country) => country !== countryToRemove));
+
+    console.log("remove");
+    console.log(countryToRemove.name.common);
+    console.log(...countryArr);
   };
 
   const onChangeHandler = (event) => {
@@ -23,15 +31,15 @@ const InputComponent = () => {
   const onClickHandler = (prev) => {
     if (country) {
       setCountryArr((prev) => [...prev, country]);
-      console.log("TUK E PREV");
-      console.log(prev);
-      console.log("KRAI");
+      //console.log("TUK E PREV");
+      //console.log(prev);
+      //console.log("KRAI");
     }
   };
 
-  console.log(countryArr);
+  //console.log(countryArr);
 
-  console.log(country);
+  //console.log(country);
   useEffect(() => {
     fetch(`https://restcountries.com/v3.1/name/${inputField}`)
       .then((response) => response.json())
@@ -62,7 +70,7 @@ const InputComponent = () => {
       {country && (
         <CountryList
           country={countryArr}
-          onRemove={() => handleRemoveCountry(country)}
+          onRemove={(countryToRemove) => handleRemoveCountry(countryToRemove)}
         />
       )}
     </>

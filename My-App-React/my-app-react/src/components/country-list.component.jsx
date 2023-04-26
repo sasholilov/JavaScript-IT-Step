@@ -7,7 +7,11 @@ const CountryList = ({ country, onRemove }) => {
     <div>
       {country &&
         country.map((country, index) => (
-          <Country key={index} country={country} onRemove={onRemove} />
+          <Country
+            key={index}
+            country={country}
+            onRemove={() => onRemove(country)}
+          />
         ))}
     </div>
   );
